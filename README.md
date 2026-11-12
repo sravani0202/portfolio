@@ -5,18 +5,60 @@ A responsive, dark-violet portfolio website built with semantic HTML, CSS, vanil
 ## Project structure
 
 ```text
-New folder/
+## 📁 Project Structure
+
+```text
+ojjala-sravani-portfolio/
+│
 ├── index.html
-├── style.css
-├── script.js
-├── server.js
-├── package.json
-├── package-lock.json
-├── .env.example
-├── .gitignore
-├── assets/
-│   └── profile.png
-└── README.md
+│
+├── css/
+│   └── style.css
+│
+├── js/
+│   └── script.js
+│
+├── netlify/
+│   └── functions/
+│       ├── health.js
+│       └── contact.js
+│
+├── netlify.toml
+├── README.md
+└── .gitignore
+```
+
+## 🚀 Technologies Used
+
+- HTML5
+- CSS3
+- JavaScript
+- Netlify Functions
+- Node.js
+- Nodemailer (if used for email delivery)
+
+## 🌐 Deployment
+
+This portfolio is hosted on Netlify.
+
+**Live Website:** https://stellar-tapioca-e63b22.netlify.app
+
+## ⚙️ Environment Variables
+
+Configure the following environment variables in Netlify:
+
+- `SMTP_USER` – Your Gmail address
+- `SMTP_PASS` – Your Google App Password
+
+Never commit your `.env` file or expose email credentials in frontend code.
+
+## 📡 API Endpoints
+
+| Endpoint | Purpose |
+|---|---|
+| `/api/health` | Checks API status |
+| `/api/contact` | Handles contact form submissions |
+
 ```
 
 The hero portrait is the photo supplied for this portfolio. Project preview photos are loaded from Unsplash.
