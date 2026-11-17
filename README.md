@@ -39,16 +39,17 @@ ojjala-sravani-portfolio/
 
 ## 🌐 Deployment
 
-This portfolio is hosted on Netlify.
+The portfolio is published on [GitHub Pages](https://sravani0202.github.io/portfolio/). GitHub Pages is static hosting, so its contact form opens a prefilled email draft rather than sending mail from a server.
 
-**Live Website:** https://stellar-tapioca-e63b22.netlify.app
+For direct email delivery, deploy this repository to Netlify. The included `netlify.toml` routes `/api/contact` and `/api/health` to the Netlify Functions in `netlify/functions`.
 
 ## ⚙️ Environment Variables
 
-Configure the following environment variables in Netlify:
+Configure these environment variables in the Netlify site settings. Use a newly generated Google App Password for `SMTP_PASS`:
 
 - `SMTP_USER` – Your Gmail address
 - `SMTP_PASS` – Your Google App Password
+- `CONTACT_EMAIL` – Sravani's destination email address
 
 Never commit your `.env` file or expose email credentials in frontend code.
 
