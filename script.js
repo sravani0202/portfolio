@@ -82,6 +82,14 @@ if (contactForm && formStatus) {
     const submitLabel = submitButton.textContent;
     const payload = Object.fromEntries(formData.entries());
 
+    if (location.hostname.endsWith(".github.io")) {
+      const subject = `Portfolio inquiry: ${payload.subject}`;
+      const body = `Name: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`;
+      formStatus.textContent = "Opening your email app with the message ready to send...";
+      window.location.href = `mailto:ojjalasravani@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      return;
+    }
+
     submitButton.disabled = true;
     submitButton.textContent = "Sending...";
     formStatus.textContent = "Sending your message securely...";
@@ -92,9 +100,28 @@ if (contactForm && formStatus) {
       body: JSON.stringify(payload)
     })
       .then(async (response) => {
-        const result = await response.json();
-        if (!response.ok || !result.ok) {
-          throw new Error(result.message || "Your message could not be sent. Please try again.");
+        if (response.status === 405) {
+          throw new Error("This site is not accepting contact form submissions. Run the Node.js backend with `npm start` or deploy the Netlify Functions configured for this project.");
+        }
+
+        const responseBody = await response.text();
+        let result;
+
+        try {
+          result = JSON.parse(responseBody);
+        } catch {
+          const message = response.status === 404
+            ? "Contact endpoint not found. Start the site with `npm start` and open the URL it prints, or deploy the Node.js backend."
+            : `The contact server returned an unexpected response (${response.status}). Please try again later.`;
+          throw new Error(message);
+        }
+
+        if (response.status === 404) {
+          throw new Error("Contact endpoint not found. Start the site with `npm start` and open the URL it prints, or deploy the Node.js backend.");
+        }
+
+        if (!response.ok || !result || result.ok !== true) {
+          throw new Error((result && result.message) || "Your message could not be sent. Please try again.");
         }
 
         formStatus.removeAttribute("data-state");
